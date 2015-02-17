@@ -2,6 +2,7 @@
 
 
 This is implimentation of the paper:
+
 N. Fukushima, S. Fujita, Y. Ishibashi, "Switching Dual Kernels for Separable Edge-Preserving Filtering," in Proc. ICASSP2015, Apr. 2015. 
 http://fukushima.web.nitech.ac.jp/research/separable.html
 
