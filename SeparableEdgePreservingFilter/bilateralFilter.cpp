@@ -1,4 +1,4 @@
-#include "separableEdgePreservingFilter.h"
+#include "opencp.hpp"
 #include "util.h"
 
 #include <opencv2/core/internal.hpp>

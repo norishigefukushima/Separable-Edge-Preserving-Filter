@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\filter">
+      <UniqueIdentifier>{d3d8bb62-2e09-49ba-afbf-9942b1b92bee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,24 +24,30 @@
     <ClCompile Include="util.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="bilateralFilter.cpp">
+    <ClCompile Include="tests.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="bilateralFilter.cpp">
+      <Filter>ソース ファイル\filter</Filter>
     </ClCompile>
     <ClCompile Include="filterCore.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\filter</Filter>
     </ClCompile>
     <ClCompile Include="jointBilateralFilter.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\filter</Filter>
     </ClCompile>
-    <ClCompile Include="tests.cpp">
+    <ClCompile Include="nonLocalMeans.cpp">
+      <Filter>ソース ファイル\filter</Filter>
+    </ClCompile>
+    <ClCompile Include="jointNonLocalMeans.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="separableEdgePreservingFilter.h">
+    <ClInclude Include="util.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="util.h">
+    <ClInclude Include="opencp.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

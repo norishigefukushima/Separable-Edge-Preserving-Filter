@@ -1,6 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include "util.h"
-#include "separableEdgePreservingFilter.h"
+#include "opencp.hpp"
 
 using namespace cv;
 using namespace std;
@@ -12,12 +12,14 @@ using namespace std;
 #pragma comment(lib, "opencv_highgui"CV_VERSION_NUMBER"d.lib")
 #pragma comment(lib, "opencv_core"CV_VERSION_NUMBER"d.lib")
 #pragma comment(lib, "opencv_contrib"CV_VERSION_NUMBER"d.lib")
+#pragma comment(lib, "opencv_photo"CV_VERSION_NUMBER"d.lib")
 #else
 
 #pragma comment(lib, "opencv_imgproc"CV_VERSION_NUMBER".lib")
 #pragma comment(lib, "opencv_highgui"CV_VERSION_NUMBER".lib")
 #pragma comment(lib, "opencv_core"CV_VERSION_NUMBER".lib")
 #pragma comment(lib, "opencv_contrib"CV_VERSION_NUMBER".lib")
+#pragma comment(lib, "opencv_photo"CV_VERSION_NUMBER".lib")
 #endif
 
 void onMouse( int event, int x_, int y_, int flag, void* data)
@@ -349,7 +351,6 @@ public:
 	}
 };
 
-
 void guiSeparableBilateralFilterTest(Mat& src)
 {
 	Mat srcf; src.convertTo(srcf,CV_32F);
@@ -370,7 +371,6 @@ void guiSeparableBilateralFilterTest(Mat& src)
 	int x=src.cols/2;
 	int y=src.rows/2;
 	Mat kernel = Mat::zeros(src.size(),CV_32F);
-	
 	
 	//int rate_s = 100; createTrackbar("space2 rate",wname,&rate_s,100);
 
@@ -497,11 +497,126 @@ void guiSeparableBilateralFilterTest(Mat& src)
 	}
 }
 
+void guiSeparableNonLocalMeans(Mat& src)
+{
+	Mat srcf; src.convertTo(srcf,CV_32F);
+	Mat dest;
+
+	string wname = "non-local means filter SP";
+	namedWindow(wname);
+
+	int a=0;createTrackbar("a",wname,&a,100);
+	int sw = 1; createTrackbar("switch",wname,&sw, 6);
+	int tr = 1; createTrackbar("tr",wname,&tr,10);
+	int sr = 3; createTrackbar("sr",wname,&sr,50);
+	
+	int h = 500; createTrackbar("h",wname,&h,2550);
+	int rate = 100; createTrackbar("color rate",wname,&rate,100);
+	
+	
+	Mat ref;
+	{
+		float sigma_h = h/10.f;
+		nonLocalMeansFilter(src, ref, 2*tr+1, 2*sr+1, sigma_h, 0);
+	}
+	ConsoleImage ci;
+	bool isKernelBF = false;
+	Mat show;
+	int key = 0;
+	while(key!='q')
+	{
+		float sigma_h = h/10.f;
+		
+//		double ssims = s/10.0;
+		
+		if(key=='r')
+		{
+			nonLocalMeansFilter(src, ref, 2*tr+1, 2*sr+1, sigma_h, 0);
+		}
+		
+		if(sw==0)
+		{
+			CalcTime t("non-local means filter: opencv");
+			fastNlMeansDenoisingColored(src, dest, sigma_h, sigma_h, 2*tr+1, 2*sr+1);
+		}
+		else if(sw==1)
+		{
+			CalcTime t("non-local means filter: my");
+			nonLocalMeansFilter(src, dest, 2*tr+1, 2*sr+1, sigma_h, 0);
+		}
+		else if(sw==2)
+		{
+			CalcTime t("non-local means filter: separable conv");
+			nonLocalMeansFilter(src, dest, 2*tr+1, 2*sr+1, sigma_h, 0, FILTER_SEPARABLE);
+		}
+		else if(sw==3)
+		{
+			CalcTime t("non-local means filter: separable prop");
+			separableNonLocalMeansFilter(src, dest, 2*tr+1, 2*sr+1, sigma_h, 0, rate/100.0, DUAL_KERNEL_HV);
+		}
+/*		else if(sw==3)
+		{
+			CalcTime t("bilateral filter: opencv sp VH");
+			separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_VH);
+			vk.bilateralWeightSP_DualVH(src, Size(d,d), sigma_color,sigma_space,rate/100.f);
+			//separableJointBilateralFilter(vk.kernel, srcf, vk.kernel, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_VH);
+
+			//CalcTime t("bilateral filter: opencv sp HVVH");
+			//separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_HVVH);
+		}
+		else if(sw==4)
+		{
+			CalcTime t("bilateral filter: opencv sp HVVH");
+			separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_HVVH);
+
+			vk.bilateralWeightSP_DualHV(src, Size(d,d), sigma_color,sigma_space,rate/100.f);
+			Mat temp = vk.kernel.clone();
+			vk.bilateralWeightSP_DualVH(src, Size(d,d), sigma_color,sigma_space,rate/100.f);
+
+			alphaBlend(vk.kernel, temp, 0.5, vk.kernel);
+//			separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_CROSS);
+		}
+		else if(sw==5)
+		{
+			CalcTime t("bilateral filter: opencv sp HVVH");
+			separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_CROSSCROSS);
+		}
+		else if(sw==6)
+		{
+			//CalcTime t("bilateral filter: opencv sp HVVH");
+			//separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate1/100.0,DUAL_KERNEL_CROSSCROSS);
+		}*/
+
+		if(key=='f')
+		{
+			a = (a==0) ? 100 : 0;
+			setTrackbarPos("a",wname,a);
+		}
+		ci(format("%f dB",PSNR(ref,dest)));
+
+		
+		//Mat g1,g2;
+		//cvtColor(ref,g1,COLOR_BGR2GRAY);
+		//cvtColor(dest,g2,COLOR_BGR2GRAY);
+		//diffshow("diff", g1, g2, (float)scale);
+		//ci(format("%f dB",SSIM(ref,dest,ssims)));
+		//ci(format("%f %f",calcTV(dest),calcTV(ref)));
+		
+		alphaBlend(ref, dest,a/100.0, show);
+		imshow(wname,show);
+		
+		ci.flush();
+		
+		key = waitKey(1);
+	}
+}
+
 int main(int argc, char** argv)
 {
 	//Mat img = imread("imgbig/artificial.png");
-	Mat img = imread("img/kodim15.png");
+	Mat img = imread("img/kodim21.png");
 	//Mat re;resize(img,re,Size(1024,1024));
-	guiSeparableBilateralFilterTest(img);
+	//guiSeparableBilateralFilterTest(img);
+	guiSeparableNonLocalMeans(img);
 }
 	

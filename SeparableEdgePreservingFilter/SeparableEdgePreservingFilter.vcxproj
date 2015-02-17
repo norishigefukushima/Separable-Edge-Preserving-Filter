@@ -147,14 +147,16 @@
     <ClCompile Include="bilateralFilter.cpp" />
     <ClCompile Include="filterCore.cpp" />
     <ClCompile Include="jointBilateralFilter.cpp" />
+    <ClCompile Include="jointNonLocalMeans.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="nonLocalMeans.cpp" />
     <ClCompile Include="tests.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="separableEdgePreservingFilter.h" />
+    <ClInclude Include="opencp.hpp" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

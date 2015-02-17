@@ -30,8 +30,6 @@ public:
 	void flush(bool isClear=true);
 };
 
-
-
 enum
 {
 	TIME_AUTO=0,
@@ -73,7 +71,6 @@ public:
 	~CalcTime();
 };
 
-void alphaBlend(const Mat& src1, const Mat& src2, double alpha, Mat& dest);
 void guiAlphaBlend(const Mat& src1, const Mat& src2);
 void showMatInfo(InputArray src_, string name="Mat");
 

@@ -1,4 +1,4 @@
-#include "separableEdgePreservingFilter.h"
+#include "opencp.hpp"
 #include "util.h"
 
 #include <opencv2/core/internal.hpp>
@@ -3245,7 +3245,6 @@ void weightedJointBilateralFilter(const Mat& src, Mat& weightMap,const Mat& guid
 		}
 	}
 }
-
 
 void jointBilateralFilter_direction_8u( const Mat& src, const Mat& guide, Mat& dst, Size kernelSize , double sigma_color, double sigma_space, int borderType,  int direction, bool isRectangle)
 {
