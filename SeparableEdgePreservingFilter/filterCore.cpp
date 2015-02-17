@@ -1,4 +1,4 @@
-#include "separableEdgePreservingFilter.h"
+#include "opencp.hpp"
 
 void cvtColorBGR2PLANE_8u( const Mat& src, Mat& dest)
 {

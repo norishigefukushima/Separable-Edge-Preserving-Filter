@@ -145,8 +145,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bilateralFilter.cpp" />
+    <ClCompile Include="dualBilateralFilter.cpp" />
     <ClCompile Include="filterCore.cpp" />
     <ClCompile Include="jointBilateralFilter.cpp" />
+    <ClCompile Include="jointDualBilateralFilter.cpp" />
     <ClCompile Include="jointNonLocalMeans.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="nonLocalMeans.cpp" />

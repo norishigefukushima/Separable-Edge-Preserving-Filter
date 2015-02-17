@@ -26,10 +26,10 @@ void onMouse( int event, int x_, int y_, int flag, void* data)
 {
 	Point* pt = (Point*) data;
 	if( flag == EVENT_FLAG_LBUTTON)
-	  {
-		  pt->x=x_;
-		  pt->y=y_;
-	  }
+	{
+		pt->x=x_;
+		pt->y=y_;
+	}
 }
 
 class VizKernel
@@ -40,13 +40,13 @@ class VizKernel
 	Size imsize;
 	string wname;
 	Point pt;
-	
+
 	int alpha;
-	
+
 	bool isGrid;
 	int color;
 
-	
+
 public:
 	Mat kernel;
 
@@ -260,7 +260,7 @@ public:
 
 	void init(string window_name, Size size)
 	{
-		
+
 		isGrid = true;
 
 		imsize = size;
@@ -269,18 +269,18 @@ public:
 		kernel = Mat::zeros(size,CV_32F);
 		ref = Mat::zeros(size,CV_8UC3);
 		namedWindow(wname);
-		
+
 		pt = Point(size.width/2,size.height/2);
 		alpha = 0;
 		createTrackbar("a",wname,&alpha,100);
 		createTrackbar("x",wname,&pt.x,size.width-1);
 		createTrackbar("y",wname,&pt.y,size.height-1);
-		
-		
+
+
 		color=1;
 		createTrackbar("color",wname,&color,11);
 
-		
+
 		setMouseCallback(wname, onMouse, &pt);
 		updateTrackbar();
 	}
@@ -371,7 +371,7 @@ void guiSeparableBilateralFilterTest(Mat& src)
 	int x=src.cols/2;
 	int y=src.rows/2;
 	Mat kernel = Mat::zeros(src.size(),CV_32F);
-	
+
 	//int rate_s = 100; createTrackbar("space2 rate",wname,&rate_s,100);
 
 	//int rate1 = 100; createTrackbar("c3 rate",wname,&rate1,100);
@@ -400,19 +400,19 @@ void guiSeparableBilateralFilterTest(Mat& src)
 		int r = cvRound(sigma_space*3.0);
 		int d = 2*r+1;
 
-//		double ssims = s/10.0;
-		
+		//		double ssims = s/10.0;
+
 		if(key=='r')
 		{
 			bilateralFilter(src, ref, Size(d,d), sigma_color, sigma_space,FILTER_RECTANGLE);
 		}
-		
+
 		if(sw==0)
 		{
 			CalcTime t("bilateral filter: opencv");
 			bilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,FILTER_RECTANGLE);
 			vk.bilateralWeight(src, Size(d,d), sigma_color,sigma_space);
-			
+
 		}
 		else if(sw==1)
 		{
@@ -450,7 +450,7 @@ void guiSeparableBilateralFilterTest(Mat& src)
 			vk.bilateralWeightSP_DualVH(src, Size(d,d), sigma_color,sigma_space,rate/100.f);
 
 			alphaBlend(vk.kernel, temp, 0.5, vk.kernel);
-//			separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_CROSS);
+			//			separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_CROSS);
 		}
 		else if(sw==5)
 		{
@@ -470,18 +470,18 @@ void guiSeparableBilateralFilterTest(Mat& src)
 		}
 		ci(format("%f dB",PSNR(ref,dest)));
 
-		
+
 		//Mat g1,g2;
 		//cvtColor(ref,g1,COLOR_BGR2GRAY);
 		//cvtColor(dest,g2,COLOR_BGR2GRAY);
 		//diffshow("diff", g1, g2, (float)scale);
 		//ci(format("%f dB",SSIM(ref,dest,ssims)));
 		//ci(format("%f %f",calcTV(dest),calcTV(ref)));
-		
+
 
 		alphaBlend(ref, dest,a/100.0, show);
 		imshow(wname,show);
-		
+
 		ci.flush();
 		if(key=='k')
 		{
@@ -509,11 +509,11 @@ void guiSeparableNonLocalMeans(Mat& src)
 	int sw = 1; createTrackbar("switch",wname,&sw, 6);
 	int tr = 1; createTrackbar("tr",wname,&tr,10);
 	int sr = 3; createTrackbar("sr",wname,&sr,50);
-	
+
 	int h = 500; createTrackbar("h",wname,&h,2550);
 	int rate = 100; createTrackbar("color rate",wname,&rate,100);
-	
-	
+
+
 	Mat ref;
 	{
 		float sigma_h = h/10.f;
@@ -526,14 +526,14 @@ void guiSeparableNonLocalMeans(Mat& src)
 	while(key!='q')
 	{
 		float sigma_h = h/10.f;
-		
-//		double ssims = s/10.0;
-		
+
+		//		double ssims = s/10.0;
+
 		if(key=='r')
 		{
 			nonLocalMeansFilter(src, ref, 2*tr+1, 2*sr+1, sigma_h, 0);
 		}
-		
+
 		if(sw==0)
 		{
 			CalcTime t("non-local means filter: opencv");
@@ -554,37 +554,37 @@ void guiSeparableNonLocalMeans(Mat& src)
 			CalcTime t("non-local means filter: separable prop");
 			separableNonLocalMeansFilter(src, dest, 2*tr+1, 2*sr+1, sigma_h, 0, rate/100.0, DUAL_KERNEL_HV);
 		}
-/*		else if(sw==3)
+		/*		else if(sw==3)
 		{
-			CalcTime t("bilateral filter: opencv sp VH");
-			separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_VH);
-			vk.bilateralWeightSP_DualVH(src, Size(d,d), sigma_color,sigma_space,rate/100.f);
-			//separableJointBilateralFilter(vk.kernel, srcf, vk.kernel, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_VH);
+		CalcTime t("bilateral filter: opencv sp VH");
+		separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_VH);
+		vk.bilateralWeightSP_DualVH(src, Size(d,d), sigma_color,sigma_space,rate/100.f);
+		//separableJointBilateralFilter(vk.kernel, srcf, vk.kernel, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_VH);
 
-			//CalcTime t("bilateral filter: opencv sp HVVH");
-			//separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_HVVH);
+		//CalcTime t("bilateral filter: opencv sp HVVH");
+		//separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_HVVH);
 		}
 		else if(sw==4)
 		{
-			CalcTime t("bilateral filter: opencv sp HVVH");
-			separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_HVVH);
+		CalcTime t("bilateral filter: opencv sp HVVH");
+		separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_HVVH);
 
-			vk.bilateralWeightSP_DualHV(src, Size(d,d), sigma_color,sigma_space,rate/100.f);
-			Mat temp = vk.kernel.clone();
-			vk.bilateralWeightSP_DualVH(src, Size(d,d), sigma_color,sigma_space,rate/100.f);
+		vk.bilateralWeightSP_DualHV(src, Size(d,d), sigma_color,sigma_space,rate/100.f);
+		Mat temp = vk.kernel.clone();
+		vk.bilateralWeightSP_DualVH(src, Size(d,d), sigma_color,sigma_space,rate/100.f);
 
-			alphaBlend(vk.kernel, temp, 0.5, vk.kernel);
-//			separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_CROSS);
+		alphaBlend(vk.kernel, temp, 0.5, vk.kernel);
+		//			separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_CROSS);
 		}
 		else if(sw==5)
 		{
-			CalcTime t("bilateral filter: opencv sp HVVH");
-			separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_CROSSCROSS);
+		CalcTime t("bilateral filter: opencv sp HVVH");
+		separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate/100.0,DUAL_KERNEL_CROSSCROSS);
 		}
 		else if(sw==6)
 		{
-			//CalcTime t("bilateral filter: opencv sp HVVH");
-			//separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate1/100.0,DUAL_KERNEL_CROSSCROSS);
+		//CalcTime t("bilateral filter: opencv sp HVVH");
+		//separableBilateralFilter(src, dest, Size(d,d), sigma_color, sigma_space,rate1/100.0,DUAL_KERNEL_CROSSCROSS);
 		}*/
 
 		if(key=='f')
@@ -594,29 +594,119 @@ void guiSeparableNonLocalMeans(Mat& src)
 		}
 		ci(format("%f dB",PSNR(ref,dest)));
 
-		
+
 		//Mat g1,g2;
 		//cvtColor(ref,g1,COLOR_BGR2GRAY);
 		//cvtColor(dest,g2,COLOR_BGR2GRAY);
 		//diffshow("diff", g1, g2, (float)scale);
 		//ci(format("%f dB",SSIM(ref,dest,ssims)));
 		//ci(format("%f %f",calcTV(dest),calcTV(ref)));
-		
+
 		alphaBlend(ref, dest,a/100.0, show);
 		imshow(wname,show);
-		
+
 		ci.flush();
-		
+
 		key = waitKey(1);
 	}
 }
 
+void guiSeparableDualBilateralFilter(Mat& src, Mat& guide)
+{
+	Mat srcf; src.convertTo(srcf,CV_32F);
+	Mat dest;
+
+	string wname = "dual bilateral filter SP";
+	namedWindow(wname);
+
+	int a=0;createTrackbar("a",wname,&a,100);
+	int sw = 4; createTrackbar("switch",wname,&sw, 6);
+	int r = 10; createTrackbar("r",wname,&r,10);
+	int sigma_s = 50; createTrackbar("sigma_s",wname,&sigma_s,300);
+	int sigma_c1 = 1500; createTrackbar("sigma_c1",wname,&sigma_c1,2550);
+	int sigma_c2 = 150; createTrackbar("sigma_c2",wname,&sigma_c2,2550);
+	int a1 = 100; createTrackbar("a1",wname,&a1,100);
+	int a2 = 100; createTrackbar("a2",wname,&a2,100);
+
+	Mat ref;
+	{
+		double ss = sigma_s/10.0;
+		double sc1 = sigma_c1/10.0;
+		double sc2 = sigma_c2/10.0;
+		dualBilateralFilter(src, guide, ref,Size(2*r+1,2*r+1), sc1, sc2, ss, FILTER_DEFAULT);
+	}
+
+	ConsoleImage ci;
+	
+	Mat show;
+	int key = 0;
+	while(key!='q')
+	{
+		double ss = sigma_s/10.0;
+		double sc1 = sigma_c1/10.0;
+		double sc2 = sigma_c2/10.0;
+
+		if(key=='r')
+		{
+			dualBilateralFilter(src, guide, ref,Size(2*r+1,2*r+1), sc1, sc2, ss, FILTER_DEFAULT);
+		}
+
+		if(sw==0)
+		{
+			CalcTime t("bilateral filter");
+			bilateralFilter(src, dest, Size(2*r+1,2*r+1), sc1, ss, FILTER_DEFAULT);
+		}
+		else if(sw==1)
+		{
+			CalcTime t("joint bilateral filter");
+			jointBilateralFilter(src, guide, dest, Size(2*r+1,2*r+1), sc2, ss, FILTER_DEFAULT);
+		}
+		else if(sw==2)
+		{
+			CalcTime t("dual bilateral filter");
+			dualBilateralFilter(src, guide, dest, Size(2*r+1,2*r+1), sc1, sc2, ss, FILTER_DEFAULT);
+		}
+		else if(sw==3)
+		{
+			CalcTime t("dual bilateral filter: conv sp");
+			dualBilateralFilter(src, guide, dest, Size(2*r+1,2*r+1), sc1, sc2, ss, FILTER_SEPARABLE);
+		}
+		else if(sw==4)
+		{
+			CalcTime t("dual bilateral filter: prpop sp");
+			separableDualBilateralFilter(src, guide, dest, Size(2*r+1, 2*r+1), sc1, sc2, ss, a1/100.0, a2/100.0, DUAL_KERNEL_HV);
+		}
+
+		if(key=='f')
+		{
+			a = (a==0) ? 100 : 0;
+			setTrackbarPos("a",wname,a);
+		}
+		ci(format("%f dB",PSNR(ref,dest)));
+
+		//Mat g1,g2;
+		//cvtColor(ref,g1,COLOR_BGR2GRAY);
+		//cvtColor(dest,g2,COLOR_BGR2GRAY);
+		//diffshow("diff", g1, g2, (float)scale);
+		//ci(format("%f dB",SSIM(ref,dest,ssims)));
+		//ci(format("%f %f",calcTV(dest),calcTV(ref)));
+
+		alphaBlend(ref, dest,a/100.0, show);
+		imshow(wname,show);
+
+		ci.flush();
+
+		key = waitKey(1);
+	}
+}
 int main(int argc, char** argv)
 {
 	//Mat img = imread("imgbig/artificial.png");
 	Mat img = imread("img/kodim21.png");
 	//Mat re;resize(img,re,Size(1024,1024));
 	//guiSeparableBilateralFilterTest(img);
-	guiSeparableNonLocalMeans(img);
+	//guiSeparableNonLocalMeans(img);
+	Mat fls = imread("img/cave-flash.png");
+	Mat nfls = imread("img/cave-noflash.png");
+	guiSeparableDualBilateralFilter(nfls,fls);
 }
-	
