@@ -13,7 +13,8 @@ http://fukushima.web.nitech.ac.jp/research/separable.html
      year    = {2015},
     }
 
-The code is a subset of OpenCP(https://github.com/norishigefukushima/OpenCP). 
+The code is a subset of OpenCP (https://github.com/norishigefukushima/OpenCP). 
+
 
     enum SeparableMethod
     {
