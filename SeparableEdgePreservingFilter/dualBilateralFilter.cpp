@@ -6417,9 +6417,7 @@ void separableDualBilateralFilter(const Mat& src, const Mat& guide, Mat& dst, Si
 	if(method==DUAL_KERNEL_HV)
 	{
 		dualBilateralFilter(src, guide, dst, Size(ksize.width,1), sigma_color, sigma_guide_color, sigma_space, FILTER_RECTANGLE, borderType);
-		
-		//jointDualBilateralFilter(src, src, guide, dst, ksize, sigma_color*alpha1, sigma_guide_color*alpha2, sigma_space, FILTER_DEFAULT);
-		jointDualBilateralFilter(dst, src, guide, dst, Size(ksize.width,ksize.height),  sigma_color*alpha1, sigma_guide_color*alpha2, sigma_space, FILTER_RECTANGLE, borderType);
+		jointDualBilateralFilter(dst, src, guide, dst, Size(1,ksize.height),  sigma_color*alpha1, sigma_guide_color*alpha2, sigma_space, FILTER_RECTANGLE, borderType);
 	}
 	else if(method==DUAL_KERNEL_VH)
 	{

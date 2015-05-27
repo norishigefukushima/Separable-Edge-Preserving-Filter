@@ -365,20 +365,12 @@ void guiSeparableBilateralFilterTest(Mat& src)
 	int space = 300; createTrackbar("space",wname,&space,2000);
 	int color = 500; createTrackbar("color",wname,&color,2550);
 	int rate = 100; createTrackbar("color rate",wname,&rate,100);
-	int scale = 10; createTrackbar("scale",wname,&scale,100);
+	int scale = 10; createTrackbar("scale",wname,&scale,20);
 
 
 	int x=src.cols/2;
 	int y=src.rows/2;
 	Mat kernel = Mat::zeros(src.size(),CV_32F);
-
-	//int rate_s = 100; createTrackbar("space2 rate",wname,&rate_s,100);
-
-	//int rate1 = 100; createTrackbar("c3 rate",wname,&rate1,100);
-	//int rate2 = 100; createTrackbar("c4 rate",wname,&rate2,100);
-
-	//int s = 15; createTrackbar("ssim",wname,&s,200);
-	//int skip = 10; createTrackbar("skip",wname,&skip,40);
 
 	class VizKernel vk("kernel",src);
 	Mat ref;
@@ -471,10 +463,8 @@ void guiSeparableBilateralFilterTest(Mat& src)
 		ci(format("%f dB",PSNR(ref,dest)));
 
 
-		//Mat g1,g2;
-		//cvtColor(ref,g1,COLOR_BGR2GRAY);
-		//cvtColor(dest,g2,COLOR_BGR2GRAY);
-		//diffshow("diff", g1, g2, (float)scale);
+		Mat g1,g2; cvtColor(ref,g1,COLOR_BGR2GRAY); cvtColor(dest,g2,COLOR_BGR2GRAY);
+		diffshow("diff", g1, g2, (float)scale);
 		//ci(format("%f dB",SSIM(ref,dest,ssims)));
 		//ci(format("%f %f",calcTV(dest),calcTV(ref)));
 
@@ -621,13 +611,14 @@ void guiSeparableDualBilateralFilter(Mat& src, Mat& guide)
 
 	int a=0;createTrackbar("a",wname,&a,100);
 	int sw = 4; createTrackbar("switch",wname,&sw, 6);
-	int r = 10; createTrackbar("r",wname,&r,10);
+	int r = 20; createTrackbar("r",wname,&r,20);
 	int sigma_s = 50; createTrackbar("sigma_s",wname,&sigma_s,300);
 	int sigma_c1 = 1500; createTrackbar("sigma_c1",wname,&sigma_c1,2550);
 	int sigma_c2 = 150; createTrackbar("sigma_c2",wname,&sigma_c2,2550);
 	int a1 = 100; createTrackbar("a1",wname,&a1,100);
 	int a2 = 100; createTrackbar("a2",wname,&a2,100);
 
+	int scale = 2; createTrackbar("scale",wname,&scale,20);
 	Mat ref;
 	{
 		double ss = sigma_s/10.0;
@@ -684,10 +675,8 @@ void guiSeparableDualBilateralFilter(Mat& src, Mat& guide)
 		}
 		ci(format("%f dB",PSNR(ref,dest)));
 
-		//Mat g1,g2;
-		//cvtColor(ref,g1,COLOR_BGR2GRAY);
-		//cvtColor(dest,g2,COLOR_BGR2GRAY);
-		//diffshow("diff", g1, g2, (float)scale);
+		Mat g1,g2; cvtColor(ref,g1,COLOR_BGR2GRAY); cvtColor(dest,g2,COLOR_BGR2GRAY);
+		diffshow("diff", g1, g2, (float)scale);
 		//ci(format("%f dB",SSIM(ref,dest,ssims)));
 		//ci(format("%f %f",calcTV(dest),calcTV(ref)));
 
@@ -704,9 +693,9 @@ int main(int argc, char** argv)
 	//Mat img = imread("imgbig/artificial.png");
 	Mat img = imread("img/kodim21.png");
 	//Mat re;resize(img,re,Size(1024,1024));
-	//guiSeparableBilateralFilterTest(img);
+	guiSeparableBilateralFilterTest(img);
 	//guiSeparableNonLocalMeans(img);
 	Mat fls = imread("img/cave-flash.png");
 	Mat nfls = imread("img/cave-noflash.png");
-	guiSeparableDualBilateralFilter(nfls,fls);
+	//guiSeparableDualBilateralFilter(nfls,fls);
 }
