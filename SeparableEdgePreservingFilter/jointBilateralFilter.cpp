@@ -1,8 +1,6 @@
 #include "opencp.hpp"
 #include "util.h"
 
-#include <opencv2/core/internal.hpp>
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //joint bilateral filter Non SSE
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -416,7 +414,7 @@ public:
 						__m128 tval1 = _mm_setzero_ps();
 
 
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++,wofs++)//wmap!
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++,wofs++)//wmap!
 						{
 							__m128 sref = _mm_loadu_ps((gptrj+*gofs));
 							_mm_store_si128((__m128i*)buf,_mm_cvtps_epi32(_mm_and_ps(_mm_sub_ps(sval,sref), *(const __m128*)v32f_absmask)));
@@ -497,7 +495,7 @@ public:
 
 						__m128 wval1 = _mm_setzero_ps();
 						__m128 tval1 = _mm_setzero_ps();
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++,wofs++)//wmap
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++,wofs++)//wmap
 						{
 							const __m128 bref = _mm_loadu_ps((gptrbj+*gofs));
 							const __m128 gref = _mm_loadu_ps((gptrgj+*gofs));
@@ -602,7 +600,7 @@ public:
 						__m128 gval1 = _mm_setzero_ps();
 						__m128 bval1 = _mm_setzero_ps();
 
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++,wofs++)//wmap
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++,wofs++)//wmap
 						{
 							__m128 bref = _mm_loadu_ps((gptrbj+*gofs));
 							__m128 gref = _mm_loadu_ps((gptrgj+*gofs));
@@ -726,7 +724,7 @@ public:
 						__m128 gval1 = _mm_set1_ps(0.0f);
 						__m128 bval1 = _mm_set1_ps(0.0f);
 
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++,wofs++)//wmap!
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++,wofs++)//wmap!
 						{
 							__m128 sref = _mm_loadu_ps((gptrj+*gofs));
 							_mm_store_si128((__m128i*)buf,_mm_cvtps_epi32(_mm_and_ps(_mm_sub_ps(sval,sref), *(const __m128*)v32f_absmask)));
@@ -858,7 +856,7 @@ public:
 						const __m128i zero = _mm_setzero_si128();
 						__m128i m1,m2;
 						__m128 _valF,_w;
-						for(k = 0;  k <= maxk; k ++, ofs++,wofs++,gofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,wofs++,gofs++,spw++)
 						{
 							const __m128i sref = _mm_loadu_si128((__m128i*)(gptrj+*gofs));
 							_mm_store_si128((__m128i*)buf,_mm_add_epi8(_mm_subs_epu8(sval,sref),_mm_subs_epu8(sref,sval)));
@@ -979,7 +977,7 @@ public:
 						__m128 tval4 = _mm_setzero_ps();
 
 						const __m128i zero = _mm_setzero_si128();
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,wofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,wofs++,spw++)
 						{
 							const __m128i bref = _mm_loadu_si128((__m128i*)(gptrbj+*gofs));
 							const __m128i gref = _mm_loadu_si128((__m128i*)(gptrgj+*gofs));
@@ -1145,7 +1143,7 @@ public:
 
 						const __m128i zero = _mm_setzero_si128();
 
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,wofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,wofs++,spw++)
 						{
 							__m128i bref = _mm_loadu_si128((__m128i*)(gptrbj+*gofs));
 							__m128i gref = _mm_loadu_si128((__m128i*)(gptrgj+*gofs));
@@ -1384,7 +1382,7 @@ public:
 						__m128 bval4 = _mm_set1_ps(0.0f);
 
 						const __m128i zero = _mm_setzero_si128();
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,wofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,wofs++,spw++)
 						{
 							__m128i sref = _mm_loadu_si128((__m128i*)(gptrj+*gofs));
 							_mm_store_si128((__m128i*)buf,_mm_add_epi8(_mm_subs_epu8(sval,sref),_mm_subs_epu8(sref,sval)));
@@ -1605,7 +1603,7 @@ public:
 						__m128 wval1 = _mm_setzero_ps();
 						__m128 tval1 = _mm_setzero_ps();
 
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++)
 						{
 							__m128 sref = _mm_loadu_ps((gptrj+*gofs));
 							_mm_store_si128((__m128i*)buf,_mm_cvtps_epi32(_mm_and_ps(_mm_sub_ps(sval,sref), *(const __m128*)v32f_absmask)));
@@ -1675,7 +1673,7 @@ public:
 
 						__m128 wval1 = _mm_setzero_ps();
 						__m128 tval1 = _mm_setzero_ps();
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++)
 						{
 							const __m128 bref = _mm_loadu_ps((gptrbj+*gofs));
 							const __m128 gref = _mm_loadu_ps((gptrgj+*gofs));
@@ -1769,7 +1767,7 @@ public:
 						__m128 gval1 = _mm_setzero_ps();
 						__m128 bval1 = _mm_setzero_ps();
 
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++)
 						{
 							__m128 bref = _mm_loadu_ps((gptrbj+*gofs));
 							__m128 gref = _mm_loadu_ps((gptrgj+*gofs));
@@ -1881,7 +1879,7 @@ public:
 						__m128 rval1 = _mm_set1_ps(0.0f);
 						__m128 gval1 = _mm_set1_ps(0.0f);
 						__m128 bval1 = _mm_set1_ps(0.0f);
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++)
 						{
 							__m128 sref = _mm_loadu_ps((gptrj+*gofs));
 							_mm_store_si128((__m128i*)buf,_mm_cvtps_epi32(_mm_and_ps(_mm_sub_ps(sval,sref), *(const __m128*)v32f_absmask)));
@@ -2004,7 +2002,7 @@ public:
 						__m128 tval4 = _mm_setzero_ps();
 
 						const __m128i zero = _mm_setzero_si128();
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++)
 						{
 							__m128i sref = _mm_loadu_si128((__m128i*)(gptrj+*gofs));
 							_mm_store_si128((__m128i*)buf,_mm_add_epi8(_mm_subs_epu8(sval,sref),_mm_subs_epu8(sref,sval)));
@@ -2117,7 +2115,7 @@ public:
 
 						const __m128i zero = _mm_setzero_si128();
 
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++)
 						{
 							const __m128i bref = _mm_loadu_si128((__m128i*)(gptrbj+*gofs));
 							const __m128i gref = _mm_loadu_si128((__m128i*)(gptrgj+*gofs));
@@ -2272,7 +2270,7 @@ public:
 						__m128 bval4 = _mm_setzero_ps();
 
 						const __m128i zero = _mm_setzero_si128();
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++)
 						{
 							__m128i bref = _mm_loadu_si128((__m128i*)(gptrbj+*gofs));
 							__m128i gref = _mm_loadu_si128((__m128i*)(gptrgj+*gofs));
@@ -2504,7 +2502,7 @@ public:
 						__m128 bval4 = _mm_set1_ps(0.0f);
 
 						const __m128i zero = _mm_setzero_si128();
-						for(k = 0;  k <= maxk; k ++, ofs++,gofs++,spw++)
+						for(k = 0;  k < maxk; k ++, ofs++,gofs++,spw++)
 						{
 							__m128i sref = _mm_loadu_si128((__m128i*)(gptrj+*gofs));
 							_mm_store_si128((__m128i*)buf,_mm_add_epi8(_mm_subs_epu8(sval,sref),_mm_subs_epu8(sref,sval)));
@@ -2745,10 +2743,10 @@ void weightedJointBilateralFilter_32f( const Mat& src, Mat& weight, const Mat& g
 	const int color_range = cvRound(maxv-minv);
 
 	vector<float> _color_weight(cng*color_range);
-	vector<float> _space_weight(kernelSize.area()+1);
-	vector<int> _space_ofs(kernelSize.area()+1);
-	vector<int> _space_w_ofs(kernelSize.area()+1);
-	vector<int> _space_guide_ofs(kernelSize.area()+1);
+	vector<float> _space_weight(kernelSize.area());
+	vector<int> _space_ofs(kernelSize.area());
+	vector<int> _space_w_ofs(kernelSize.area());
+	vector<int> _space_guide_ofs(kernelSize.area());
 	float* color_weight = &_color_weight[0];
 	float* space_weight = &_space_weight[0];
 	int* space_ofs = &_space_ofs[0];
@@ -2873,10 +2871,10 @@ void weightedJointBilateralFilter_8u( const Mat& src, Mat& weight, const Mat& gu
 	const int color_range=256;
 
 	vector<float> _color_weight(cng*color_range);
-	vector<float> _space_weight(kernelSize.area()+1);
-	vector<int> _space_ofs(kernelSize.area()+1);
-	vector<int> _space_w_ofs(kernelSize.area()+1);
-	vector<int> _space_guide_ofs(kernelSize.area()+1);
+	vector<float> _space_weight(kernelSize.area());
+	vector<int> _space_ofs(kernelSize.area());
+	vector<int> _space_w_ofs(kernelSize.area());
+	vector<int> _space_guide_ofs(kernelSize.area());
 	float* color_weight = &_color_weight[0];
 	float* space_weight = &_space_weight[0];
 	int* space_ofs = &_space_ofs[0];
@@ -3003,9 +3001,9 @@ void jointBilateralFilter_32f( const Mat& src, const Mat& guide, Mat& dst, Size 
 	const int color_range = cvRound(maxv-minv);
 
 	vector<float> _color_weight(cng*color_range);
-	vector<float> _space_weight(kernelSize.area()+1);
-	vector<int> _space_ofs(kernelSize.area()+1);
-	vector<int> _space_guide_ofs(kernelSize.area()+1);
+	vector<float> _space_weight(kernelSize.area());
+	vector<int> _space_ofs(kernelSize.area());
+	vector<int> _space_guide_ofs(kernelSize.area());
 	float* color_weight = &_color_weight[0];
 	float* space_weight = &_space_weight[0];
 	int* space_ofs = &_space_ofs[0];
@@ -3088,9 +3086,9 @@ void jointBilateralFilter_8u( const Mat& src, const Mat& guide, Mat& dst, Size k
 	const int color_range = 256;
 
 	vector<float> _color_weight(cng*color_range);
-	vector<float> _space_weight(kernelSize.area()+1);
-	vector<int> _space_ofs(kernelSize.area()+1);
-	vector<int> _space_guide_ofs(kernelSize.area()+1);
+	vector<float> _space_weight(kernelSize.area());
+	vector<int> _space_ofs(kernelSize.area());
+	vector<int> _space_guide_ofs(kernelSize.area());
 	float* color_weight = &_color_weight[0];
 	float* space_weight = &_space_weight[0];
 	int* space_ofs = &_space_ofs[0];
@@ -3307,9 +3305,9 @@ void jointBilateralFilter_direction_8u( const Mat& src, const Mat& guide, Mat& d
 	const int color_range = 256;
 
 	vector<float> _color_weight(cng*color_range);
-	vector<float> _space_weight(kernelSize.area()+1);
-	vector<int> _space_ofs(kernelSize.area()+1);
-	vector<int> _space_guide_ofs(kernelSize.area()+1);
+	vector<float> _space_weight(kernelSize.area());
+	vector<int> _space_ofs(kernelSize.area());
+	vector<int> _space_guide_ofs(kernelSize.area());
 	float* color_weight = &_color_weight[0];
 	float* space_weight = &_space_weight[0];
 	int* space_ofs = &_space_ofs[0];

@@ -1,5 +1,4 @@
 #include "opencp.hpp"
-#include <opencv2/core/internal.hpp>
 
 template <class T>
 class NonlocalMeansFilterNonzeroBaseInvorker_ : public cv::ParallelLoopBody

@@ -1,8 +1,6 @@
 #include "opencp.hpp"
 #include "util.h"
 
-#include <opencv2/core/internal.hpp>
-
 void bilateralFilterSlowest(const Mat& src, Mat& dest, Size kernel, double sigma_color, double sigma_space)
 {
 	Mat srcd;src.convertTo(srcd,CV_64F);

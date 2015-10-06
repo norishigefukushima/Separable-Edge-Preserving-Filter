@@ -8,17 +8,16 @@ using namespace std;
 #define CV_VERSION_NUMBER CVAUX_STR(CV_MAJOR_VERSION) CVAUX_STR(CV_MINOR_VERSION) CVAUX_STR(CV_SUBMINOR_VERSION)
 
 #ifdef _DEBUG
+#pragma comment(lib, "opencv_imgcodecs"CV_VERSION_NUMBER"d.lib")
 #pragma comment(lib, "opencv_imgproc"CV_VERSION_NUMBER"d.lib")
 #pragma comment(lib, "opencv_highgui"CV_VERSION_NUMBER"d.lib")
 #pragma comment(lib, "opencv_core"CV_VERSION_NUMBER"d.lib")
-#pragma comment(lib, "opencv_contrib"CV_VERSION_NUMBER"d.lib")
 #pragma comment(lib, "opencv_photo"CV_VERSION_NUMBER"d.lib")
 #else
-
+#pragma comment(lib, "opencv_imgcodecs"CV_VERSION_NUMBER".lib")
 #pragma comment(lib, "opencv_imgproc"CV_VERSION_NUMBER".lib")
 #pragma comment(lib, "opencv_highgui"CV_VERSION_NUMBER".lib")
 #pragma comment(lib, "opencv_core"CV_VERSION_NUMBER".lib")
-#pragma comment(lib, "opencv_contrib"CV_VERSION_NUMBER".lib")
 #pragma comment(lib, "opencv_photo"CV_VERSION_NUMBER".lib")
 #endif
 
